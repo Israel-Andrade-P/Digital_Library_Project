@@ -20,6 +20,10 @@ public class LoanRepository extends AbstractFileRepository<Loan> {
         return Comparator.comparing(Loan::getBorrowDate);
     }
 
+    public List<Loan> findByEmail(String email) {
+        return retrieveAll().stream().filter(loan -> loan.getUserEmail().equals(email)).toList();
+    }
+
     public Optional<Loan> findActiveLoan(String email, String bookId) {
         return retrieveAll().stream()
                 .filter(l -> l.getUserEmail().equals(email) && l.getBookId().equals(bookId) && l.isActive())

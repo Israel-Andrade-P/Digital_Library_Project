@@ -5,6 +5,7 @@ import exception.BookWithActiveLoanException;
 import exception.UserNotFoundException;
 import model.Book;
 import model.Loan;
+import model.User;
 import service.BookService;
 import service.LoanService;
 import service.UserService;
@@ -50,5 +51,17 @@ public class Library {
          if (!userService.exists(email)) throw new UserNotFoundException(String.format("User with email %s not found", email));
          if (!bookService.exists(bookId)) throw new BookNotFoundException(String.format("Book with ID %s not found", bookId));
         loanService.updateReturnStatus(email, bookId);
+     }
+
+     public List<Loan> findLoansByEmail(String email) {
+        return loanService.getByEmail(email);
+     }
+
+     public void registerUser(User user) {
+        userService.create(user);
+     }
+
+     public List<User> listUsers() {
+        return userService.getAll();
      }
 }

@@ -37,4 +37,8 @@ public class LoanService implements FileService<Loan> {
         loan.markAsReturned();
         loanRepository.update(loan);
     }
+
+    public List<Loan> getByEmail(String email) {
+        return loanRepository.findByEmail(email);
+    }
 }

@@ -1,24 +1,29 @@
+import app.Library;
 import model.Book;
-import model.Loan;
 import model.User;
 import repository.BookRepository;
 import repository.LoanRepository;
 import repository.UserRepository;
 import service.BookService;
-import service.FileService;
+import service.LoanService;
 import service.UserService;
 
 void main() {
-    BookService bookService = new BookService(new BookRepository());
-    FileService<User> userService = new UserService(new UserRepository());
-    LoanRepository loanRepository = new LoanRepository();
+    Library library = new Library(
+            new BookService(new BookRepository()),
+            new UserService(new UserRepository()),
+            new LoanService(new LoanRepository())
+    );
 
-    //bookService.create(new Book("Two Towers", "Stephen King", 1988));
-    bookService.getAll().forEach(System.out::println);
-    bookService.findByTitle("it").forEach(System.out::println);
-    System.out.println("------------------------------------");
-    userService.create(new User("Zel", "zel@gmaill", "cheese"));
-    userService.getAll().forEach(System.out::println);
-    loanRepository.add(new Loan("zel@gmail", "109372"));
-    loanRepository.retrieveAll().forEach(System.out::println);
+    //library.addBook(new Book("IT", "Stephen King", 1977));
+    //library.addBook(new Book("The Shining", "Stephen King", 1977));
+    library.getBooks().forEach(System.out::println);
+    System.out.println("--------------------------------------");
+    //library.registerUser(new User("Zel", "zel@gmail", "cheese"));
+    library.listUsers().forEach(System.out::println);
+    //library.borrowBook("zel@gmail", "542351");
+    System.out.println("---------------------------------------");
+    library.findLoansByEmail("zel@gmail").forEach(System.out::println);
+    library.returnBook("zel@gmail", "542351");
+    library.findLoansByEmail("zel@gmail").forEach(System.out::println);
 }

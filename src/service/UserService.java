@@ -1,5 +1,6 @@
 package service;
 
+import exception.UserAlreadyRegisteredException;
 import model.User;
 import repository.UserRepository;
 
@@ -14,6 +15,8 @@ public class UserService implements FileService<User>{
 
     @Override
     public void create(User user) {
+        if (exists(user.getId())) throw new UserAlreadyRegisteredException("User already registered");
+
         userRepository.add(user);
     }
 
