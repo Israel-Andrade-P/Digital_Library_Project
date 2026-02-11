@@ -1,6 +1,10 @@
 package model;
 
-public class User {
+import common.Identifiable;
+
+import java.io.Serializable;
+
+public class User implements Identifiable, Serializable {
     private String name;
     private String email;
     private String password;
@@ -19,10 +23,6 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -33,5 +33,19 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String getId() {
+        return email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

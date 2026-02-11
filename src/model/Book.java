@@ -1,32 +1,23 @@
 package model;
 
+import common.Identifiable;
 import util.BookUtils;
 
 import java.io.Serializable;
 
-public class Book implements Serializable {
+public class Book implements Identifiable, Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String id;
     private String title;
     private String author;
     private Integer yearPublished;
-    private boolean isBorrowed;
 
     public Book(String title, String author, Integer yearPublished) {
         this.id = BookUtils.generateId.get();
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
-        this.isBorrowed = false;
-    }
-
-    public Book(String title, String author, Integer yearPublished, boolean isBorrowed) {
-        this.id = BookUtils.generateId.get();
-        this.title = title;
-        this.author = author;
-        this.yearPublished = yearPublished;
-        this.isBorrowed = isBorrowed;
     }
 
     public String getId() {
@@ -57,14 +48,6 @@ public class Book implements Serializable {
         this.yearPublished = yearPublished;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        isBorrowed = borrowed;
-    }
-
     @Override
     public String toString() {
         return "Book{" +
@@ -72,7 +55,6 @@ public class Book implements Serializable {
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", yearPublished=" + yearPublished +
-                ", isBorrowed=" + isBorrowed +
                 '}';
     }
 }

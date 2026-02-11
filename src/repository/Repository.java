@@ -7,4 +7,5 @@ public interface Repository<T> {
     void add(T t);
     List<T> retrieveAll();
     Optional<T> findById(String id);
+    boolean exists(String id);
 }
