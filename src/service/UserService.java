@@ -1,6 +1,7 @@
 package service;
 
 import exception.UserAlreadyRegisteredException;
+import exception.UserNotFoundException;
 import model.User;
 import repository.UserRepository;
 
@@ -22,7 +23,14 @@ public class UserService implements FileService<User>{
 
     @Override
     public List<User> getAll() {
+        List<User> users = userRepository.retrieveAll();
+        if (users.isEmpty()) throw new UserNotFoundException("No users in system");
         return userRepository.retrieveAll();
+    }
+
+    @Override
+    public User getById(String email) {
+        return userRepository.findById(email).orElseThrow(() -> new UserNotFoundException(String.format("User with email %s not found", email)));
     }
 
     @Override

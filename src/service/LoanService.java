@@ -1,9 +1,11 @@
 package service;
 
+import exception.LoanNotFoundException;
 import model.Loan;
 import repository.LoanRepository;
 
 import java.util.List;
+import java.util.Set;
 
 public class LoanService implements FileService<Loan> {
     private final LoanRepository loanRepository;
@@ -23,6 +25,11 @@ public class LoanService implements FileService<Loan> {
     }
 
     @Override
+    public Loan getById(String id) {
+        return loanRepository.findById(id).orElseThrow(() -> new LoanNotFoundException("Loan not found"));
+    }
+
+    @Override
     public boolean exists(String id) {
         return loanRepository.exists(id);
     }
@@ -39,6 +46,12 @@ public class LoanService implements FileService<Loan> {
     }
 
     public List<Loan> getByEmail(String email) {
-        return loanRepository.findByEmail(email);
+        List<Loan> loans = loanRepository.findByEmail(email);
+        if (loans.isEmpty()) throw new LoanNotFoundException("Loan not found");
+        return loans;
+    }
+
+    public Set<String> getBooksWithActiveLoans() {
+        return loanRepository.returnBookIdsActiveLoan();
     }
 }

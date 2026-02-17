@@ -6,6 +6,8 @@ import model.Loan;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static constant.Constants.LOAN_PATH;
 
@@ -40,5 +42,9 @@ public class LoanRepository extends AbstractFileRepository<Loan> {
         List<Loan> updatedLoans = retrieveAll().stream()
                 .map(loan -> loan.getId().equals(updatedLoan.getId()) ? updatedLoan : loan).toList();
         saveAll(updatedLoans);
+    }
+
+    public Set<String> returnBookIdsActiveLoan() {
+        return retrieveAll().stream().filter(Loan::isActive).map(Loan::getBookId).collect(Collectors.toSet());
     }
 }

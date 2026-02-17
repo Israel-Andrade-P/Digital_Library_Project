@@ -2,7 +2,6 @@ package app;
 
 import exception.BookNotFoundException;
 import exception.BookWithActiveLoanException;
-import exception.UserNotFoundException;
 import model.Book;
 import model.Loan;
 import model.User;
@@ -11,6 +10,7 @@ import service.LoanService;
 import service.UserService;
 
 import java.util.List;
+import java.util.Set;
 
 public class Library {
     private final BookService bookService;
@@ -40,22 +40,32 @@ public class Library {
     }
 
     public void borrowBook(String email, String bookId) {
-        if (!userService.exists(email)) throw new UserNotFoundException(String.format("User with email %s not found", email));
-        if (!bookService.exists(bookId)) throw new BookNotFoundException(String.format("Book with ID %s not found", bookId));
+        User _ = userService.getById(email);
+        Book _ = bookService.getById(bookId);
         if (loanService.hasActiveLoan(bookId)) throw new BookWithActiveLoanException("Book already borrowed");
 
         loanService.create(new Loan(email, bookId));
     }
 
      public void returnBook(String email, String bookId) {
-         if (!userService.exists(email)) throw new UserNotFoundException(String.format("User with email %s not found", email));
-         if (!bookService.exists(bookId)) throw new BookNotFoundException(String.format("Book with ID %s not found", bookId));
+         User _ = userService.getById(email);
+         Book _ = bookService.getById(bookId);
         loanService.updateReturnStatus(email, bookId);
      }
 
      public List<Loan> findLoansByEmail(String email) {
         return loanService.getByEmail(email);
      }
+
+    public List<Book> findAvailableBooks() {
+        Set<String> borrowedBooks = loanService.getBooksWithActiveLoans();
+        List<Book> books = bookService.getAll();
+
+        List<Book> availableBooks = books.stream().filter(b -> !borrowedBooks.contains(b.getId())).toList();
+        if (availableBooks.isEmpty()) throw new BookNotFoundException("All books already taken");
+
+        return books.stream().filter(b -> !borrowedBooks.contains(b.getId())).toList();
+    }
 
      public void registerUser(User user) {
         userService.create(user);
