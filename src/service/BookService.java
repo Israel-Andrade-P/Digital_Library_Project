@@ -40,12 +40,14 @@ public class BookService implements FileService<Book>{
     }
 
     public List<Book> findByTitle(String title) {
+        if (title == null || title.isBlank()) return List.of();
         List<Book> books = bookRepository.findByTitle(title);
         if (books.isEmpty()) throw new BookNotFoundException("Book not found");
         return books;
     }
 
     public List<Book> findByAuthor(String author) {
+        if (author == null || author.isBlank()) return List.of();
         List<Book> books = bookRepository.getByAuthor(author);
         if (books.isEmpty()) throw new BookNotFoundException("Book not found");
         return bookRepository.getByAuthor(author);

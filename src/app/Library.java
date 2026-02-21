@@ -39,12 +39,14 @@ public class Library {
         return bookService.findByAuthor(author);
     }
 
-    public void borrowBook(String email, String bookId) {
+    public Loan borrowBook(String email, String bookId) {
         User _ = userService.getById(email);
         Book _ = bookService.getById(bookId);
         if (loanService.hasActiveLoan(bookId)) throw new BookWithActiveLoanException("Book already borrowed");
 
-        loanService.create(new Loan(email, bookId));
+        Loan loan = new Loan(email, bookId);
+        loanService.create(loan);
+        return loan;
     }
 
      public void returnBook(String email, String bookId) {

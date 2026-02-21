@@ -7,12 +7,13 @@ import java.io.Serializable;
 public class User implements Identifiable, Serializable {
     private String name;
     private String email;
-    private String password;
 
-    public User(String name, String email, String password) {
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
-        this.password = password;
+    }
+
+    public User() {
     }
 
     public String getName() {
@@ -27,14 +28,6 @@ public class User implements Identifiable, Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     @Override
     public String getId() {
         return email;
@@ -42,10 +35,6 @@ public class User implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return String.format("Name: %s\nEmail: %s\n", this.name, this.email);
     }
 }

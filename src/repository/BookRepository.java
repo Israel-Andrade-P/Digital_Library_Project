@@ -6,6 +6,7 @@ import model.Book;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static constant.Constants.BOOK_PATH;
@@ -23,13 +24,22 @@ public class BookRepository extends AbstractFileRepository<Book> {
     }
 
     public List<Book> findByTitle(String title) {
-       return retrieveAll().stream()
-                .filter(b -> b.getTitle().equalsIgnoreCase(title))
+        var search = title.toLowerCase();
+
+        return retrieveAll().stream()
+                .filter(Objects::nonNull)
+                .filter(b -> b.getTitle().toLowerCase().contains(search))
                 .toList();
+
     }
 
     public List<Book> getByAuthor(String author) {
-        return retrieveAll().stream().filter(book -> book.getAuthor().equals(author)).toList();
+        var search = author.toLowerCase();
+
+        return retrieveAll().stream()
+                .filter(Objects::nonNull)
+                .filter(book -> book.getAuthor().toLowerCase().contains(search))
+                .toList();
     }
 
     public Map<String, List<Book>> groupByAuthor() {

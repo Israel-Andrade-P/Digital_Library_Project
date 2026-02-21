@@ -62,13 +62,7 @@ public class Loan implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return "Loan{" +
-                "id='" + id + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", bookId='" + bookId + '\'' +
-                ", borrowDate=" + borrowDate +
-                ", dueDate=" + dueDate +
-                ", returnDate=" + returnDate +
-                '}';
+        return String.format("ID: %s\nEmail: %s\nBook: %s\nLoan's Date: %s\nDue Date: %s\nReturn Date: %s",
+                this.id, this.userEmail, this.bookId, this.borrowDate, this.dueDate, this.returnDate);
     }
 }

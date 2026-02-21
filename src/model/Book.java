@@ -1,9 +1,10 @@
 package model;
 
 import common.Identifiable;
-import util.BookUtils;
 
 import java.io.Serializable;
+
+import static util.BookUtils.generateId;
 
 public class Book implements Identifiable, Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,10 +15,14 @@ public class Book implements Identifiable, Serializable {
     private Integer yearPublished;
 
     public Book(String title, String author, Integer yearPublished) {
-        this.id = BookUtils.generateId.get();
+        this.id = generateId.get();
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
+    }
+
+    public Book() {
+        this.id = generateId.get();
     }
 
     public String getId() {
@@ -50,11 +55,6 @@ public class Book implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "id=" + id +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", yearPublished=" + yearPublished +
-                '}';
+        return String.format("ID: %s\nTitle: %s\nAuthor: %s\nYear: %d\n", this.id, this.title, this.author, this.yearPublished);
     }
 }
